@@ -6,7 +6,14 @@ library(shinydashboard)
 
 ui <- dashboardPage(
   dashboardHeader(title = "Leandro Budget Tool"),
-  dashboardSidebar(),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("2021/2022 Current"),
+      menuItem("2021/2022 w/ Leandro"),
+      menuItem("2027/2028 Projected"),
+      menuItem("2027/2028 w/ Leandro")
+    )
+  ),
   dashboardBody(leaflet(mergedshapeL) %>%
                   addProviderTiles("HikeBike.HikeBike") %>%
                   addPolygons(fillColor = "white",
@@ -80,8 +87,8 @@ library(raster)
 
 raster::shapefile(mergedshapeL, "mergedshapeL.shp")
 
-county_info <- read.csv("~/Downloads/2021LeandroCostEstimateswv_wGEOID.csv")
-county_shape <- read_sf("~/Downloads/tl_2017_37_unsd/tl_2017_37_unsd.shp")
+county_info <- read.csv("~/rStuff/Leandro/2021LeandroCostEstimateswv_wGEOID.csv")
+county_shape <- read_sf("~/rStuff/Leandro/tl_2017_37_unsd.shp")
 
 
 library(sf)
@@ -89,7 +96,7 @@ library(dplyr)
 
 county_info <- read.csv("~/rStuff/Leandro/2021LeandroCostEstimateswv_wGEOID.csv")
 county_info$GEOID <- as.character(county_info$GEOID)
-county_shape <- read_sf("~/Downloads/tl_2017_37_unsd/tl_2017_37_unsd.shp")
+county_shape <- read_sf("~/rStuff/Leandro/tl_2017_37_unsd.shp")
 county_info %>% full_join(y = county_shape, by = 'GEOID') %>%
   st_as_sf() %>%
   sf::st_write("~/Downloads/output.shp") 
@@ -98,7 +105,7 @@ mergedshapeL <- read_sf("~/Downloads/output.shp")
 
 #save merge back out as shapefile for leaflet to read
 #library(raster)
-s#hapefile(mergedshapeL, "path/merged.shp")
+#shapefile(mergedshapeL, "path/merged.shp")
 
 #now get map with additional finance info in popups
 leaflet(mergedshapeL) %>%

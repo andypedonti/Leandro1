@@ -6,7 +6,14 @@ library(shinydashboard)
 
 ui <- dashboardPage(
   dashboardHeader(title = "Leandro Budget Tool"),
-  dashboardSidebar(),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("2021/2022 Current"),
+      menuItem("2021/2022 w/ Leandro"),
+      menuItem("2027/2028 Projected"),
+      menuItem("2027/2028 w/ Leandro")
+    )
+  ),
   dashboardBody(leaflet(mergedshapeL) %>%
                   addProviderTiles("HikeBike.HikeBike") %>%
                   addPolygons(fillColor = "white",
